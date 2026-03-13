@@ -6,8 +6,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # On Streamlit Cloud, secrets are not env vars automatically — inject them
-if "OPENAI_API_KEY" in st.secrets:
-    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+try:
+    if "OPENAI_API_KEY" in st.secrets:
+        os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+except Exception:
+    pass
 
 from ingest import load_and_chunk_document, create_vector_store
 from generator import generate_answer
