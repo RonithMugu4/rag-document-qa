@@ -1,11 +1,17 @@
+import os
+import streamlit as st
 from dotenv import load_dotenv
+
+# Load .env for local development
 load_dotenv()
 
-import streamlit as st
+# On Streamlit Cloud, secrets are not env vars automatically — inject them
+if "OPENAI_API_KEY" in st.secrets:
+    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+
 from ingest import load_and_chunk_document, create_vector_store
 from generator import generate_answer
 import tempfile
-import os
 
 # Page configuration
 st.set_page_config(page_title="RAG Document Q&A", page_icon="📄")
